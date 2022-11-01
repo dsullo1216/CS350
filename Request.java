@@ -1,34 +1,26 @@
-public class Request {
+public class Request implements Comparable<Request> {
 
-    private LoadGenerator generator;
-    private String id;
+    private int id;
     private double arrivalTime;
     private double serviceTime;
     private double departureTime;
 
-    public Request(LoadGenerator generator, String id) {
-        this.generator = generator;
+    public Request(int id, double arrivalTime, double serviceTime) {
         this.id = id;
+        this.arrivalTime = arrivalTime;
+        this.serviceTime = serviceTime;
     }
 
     @Override
     public String toString() {
-        return id;
+        return "" + id;
     }
 
-    public LoadGenerator getGenerator() {
-        return this.generator;
-    }
-
-    public void setGenerator(LoadGenerator generator) {
-        this.generator = generator;
-    }
-
-    public String getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -54,6 +46,11 @@ public class Request {
 
     public void setDepartureTime(double departureTime) {
         this.departureTime = departureTime;
+    }
+
+    @Override
+    public int compareTo(Request o) {
+        return o.departureTime < this.departureTime ? 1 : -1;
     }
     
     
