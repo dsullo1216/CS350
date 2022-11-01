@@ -43,8 +43,14 @@ public class Dispatcher {
 
         String path_to_file = args[0];
         int n = Integer.parseInt(args[1]);
-        int timeout = Integer.parseInt(args[2]);
-        Dispatcher dispatcher = new Dispatcher(path_to_file, n, timeout);
+        Dispatcher dispatcher;
+        if (args.length > 2) {
+            int timeout = Integer.parseInt(args[2]);
+            dispatcher = new Dispatcher(path_to_file, n, timeout);
+        }
+        else {
+            dispatcher = new Dispatcher(path_to_file, n, 0);
+        }
         dispatcher.fillQueue();
         while (!dispatcher.queue.isEmpty()) {
             dispatcher.dispatch();

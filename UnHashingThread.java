@@ -13,7 +13,14 @@ public class UnHashingThread extends Thread {
     @Override
     public void run() {
         try {
-            System.out.println(new UnHash().unhash(to_unhash, timeout));
+            int result = new UnHash().unhash(to_unhash, timeout);
+            if (result != -1) {
+                System.out.println(result);
+            }
+            else {
+                System.out.println(to_unhash);
+            }
+            // System.out.println(new UnHash().unhash(to_unhash, timeout));
             // Add code to handle timing out on impossible hashes
             
 
@@ -22,5 +29,5 @@ public class UnHashingThread extends Thread {
 
         }
     }
-    
+
 }

@@ -16,7 +16,11 @@ public class UnHash {
     public int unhash(String to_unhash, int timeout) throws NoSuchAlgorithmException {
         int curInt = 1;
         Hash hash = new Hash();
+        long startTime = System.currentTimeMillis();
         while (true) {
+            if (timeout != 0 && System.currentTimeMillis() - startTime > timeout) {
+                return -1;
+            }
             if (hash.hash(curInt).equals(to_unhash)) {
                 return curInt;
             }
