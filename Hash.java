@@ -3,9 +3,10 @@ import java.security.*;
 
 public class Hash {
 
-    public String hash(int to_hash) throws NoSuchAlgorithmException {
+    public String hash(String to_hash) throws NoSuchAlgorithmException {
+        to_hash = String.valueOf(to_hash);
         MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(Integer.toString(to_hash).getBytes());
+        md.update(to_hash.getBytes());
         byte[] digest = md.digest();
         BigInteger bigInt = new BigInteger(1, digest);
         String hashtext = bigInt.toString(16);
