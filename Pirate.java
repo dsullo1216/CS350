@@ -9,43 +9,46 @@ public class Pirate {
     private int num_threads;
     private int timeout;
 
+    private List<String> uncrackedHashes;
+    private List<Integer> crackedHashes;
+
     public Pirate(String path_to_file, int n, int timeout) {
         file_path = path_to_file;
         num_threads = n;
         this.timeout = timeout;
+        uncrackedHashes = new ArrayList<String>();
+        crackedHashes = new ArrayList<Integer>();
+        
     }
 
     public ArrayList<String> findTreasure() throws FileNotFoundException, InterruptedException {
         // Try to crack the hashes in the file without hints
         ArrayList<String> result = new ArrayList<String>();
         Dispatcher dispatcher = new Dispatcher(file_path, num_threads, timeout);
-        dispatcher.fillQueue();
-        while (!dispatcher.getQueue().isEmpty()) {
-            dispatcher.dispatch();
-        }
         
-        ArrayList<String> uncrackedHashes = dispatcher.getFinalUncrackedHashes();
-        List<Integer> crackedHashesD1 = dispatcher.getFinalCrackedHashes();
-        Collections.sort(crackedHashesD1);
-        crackedHashesD1 = Collections.synchronizedList(crackedHashesD1);
-        for (int i = 0; i < crackedHashesD1.size(); i++) {
-            result.add(String.valueOf(crackedHashesD1.get(i)));
+        dispatcher.dispatch();
+
+        uncrackedHashes.addAll(Dispatcher.uncrackedHashes);
+        crackedHashes.addAll(Dispatcher.crackedHashes);
+        
+        Collections.sort(crackedHashes);
+        crackedHashes = Collections.synchronizedList(crackedHashes);
+
+        for (int i = 0; i < crackedHashes.size(); i++) {
+            result.add(String.valueOf(crackedHashes.get(i)));
         }
 
         // Try to crack the hashes in the file with hints
         Dispatcher dispatcher2 = new Dispatcher(uncrackedHashes, num_threads, timeout);
-        while (!dispatcher2.getQueue().isEmpty()) {
-            dispatcher2.dispatch(crackedHashesD1);
-        }
+        
+        dispatcher2.dispatch(crackedHashes);
 
-        result.addAll(dispatcher2.getFinalCrackedCompoundHashes());
-        result.addAll(dispatcher2.getFinalUncrackedHashes());
+        result.addAll(Dispatcher.crackedCompoundHashes);
+        result.addAll(Dispatcher.uncrackedHashes);
 
         return result;
 
     }
-
-
 
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
         String file_path = args[0];

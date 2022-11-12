@@ -27,43 +27,12 @@ public class UnHashingThread extends Thread {
         this.crackedCompoundHashes = new ArrayList<String>();
     }
 
-    public List<String> getUncrackedHashes() {
-        return uncrackedHashes;
-    }
-
-    public void setUncrackedHashes(ArrayList<String> uncrackedHashes) {
-        this.uncrackedHashes = uncrackedHashes;
-    }
-
-    public List<Integer> getCrackedHashes() {
-        return crackedHashes;
-    }
-
-    public void setCrackedHashes(ArrayList<Integer> crackedHashes) {
-        this.crackedHashes = crackedHashes;
-    }
-
-    public List<String> getCrackedCompoundHashes() {
-        return crackedCompoundHashes;
-    }
-
-    public void setCrackedCompoundHashes(ArrayList<String> crackedCompoundHashes) {
-        this.crackedCompoundHashes = crackedCompoundHashes;
-    }
-
-
     @Override
     public void run() {
         try {
             String result;
             boolean isCrackedHashes = (crackedHashes.size() == 0);
             result = isCrackedHashes ? new UnHash().unhash(this.to_unhash, this.timeout) : new UnHash().unhash(to_unhash, timeout, crackedHashes);
-            // if (this.crackedHashes == null) {
-            //     result = new UnHash().unhash(to_unhash, timeout);
-            // }
-            // else {
-            //     result = new UnHash().unhash(to_unhash, timeout, crackedHashes);
-            // }
             if (!result.equals("-1")) {
                 if (result.contains(";")) {
                     Dispatcher.crackedCompoundHashes.add(result);
@@ -76,7 +45,6 @@ public class UnHashingThread extends Thread {
                 Dispatcher.uncrackedHashes.add(to_unhash);
             }
             // System.out.println(new UnHash().unhash(to_unhash, timeout));
-            // Add code to handle timing out on impossible hashes
             
 
         } catch (NoSuchAlgorithmException e) {
