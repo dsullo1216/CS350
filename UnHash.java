@@ -52,6 +52,7 @@ public class UnHash {
                 }
             }
         }
+        System.out.println(to_unhash);
         return String.valueOf(-1);
     }
 

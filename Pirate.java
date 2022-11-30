@@ -34,17 +34,17 @@ public class Pirate {
         Collections.sort(crackedHashes);
         crackedHashes = Collections.synchronizedList(crackedHashes);
 
-        for (int i = 0; i < crackedHashes.size(); i++) {
-            result.add(String.valueOf(crackedHashes.get(i)));
-        }
+        // for (int i = 0; i < crackedHashes.size(); i++) {
+        //     result.add(String.valueOf(crackedHashes.get(i)));
+        // }
 
         // Try to crack the hashes in the file with hints
         Dispatcher dispatcher2 = new Dispatcher(uncrackedHashes, num_threads, timeout);
         
         dispatcher2.dispatch(crackedHashes);
 
-        result.addAll(Dispatcher.crackedCompoundHashes);
-        result.addAll(Dispatcher.uncrackedHashes);
+        // result.addAll(Dispatcher.crackedCompoundHashes);
+        // result.addAll(Dispatcher.uncrackedHashes);
 
         return result;
 
@@ -60,9 +60,9 @@ public class Pirate {
         Pirate pirate = new Pirate(file_path, num_threads, timeout);
         ArrayList<String> result = pirate.findTreasure();
 
-        for (int i = 0; i < result.size(); i++) {
-            System.out.println(result.get(i));
-        }
+        // for (int i = 0; i < result.size(); i++) {
+        //     System.out.println(result.get(i));
+        // }
     }
     
 }

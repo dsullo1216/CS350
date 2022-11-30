@@ -35,9 +35,11 @@ public class UnHashingThread extends Thread {
             result = isCrackedHashes ? new UnHash().unhash(this.to_unhash, this.timeout) : new UnHash().unhash(to_unhash, timeout, crackedHashes);
             if (!result.equals("-1")) {
                 if (result.contains(";")) {
+                    System.out.println(result);
                     Dispatcher.crackedCompoundHashes.add(result);
                 }
                 else {
+                    System.out.println(result);
                     Dispatcher.crackedHashes.add(Integer.parseInt(result));
                 }
             }
